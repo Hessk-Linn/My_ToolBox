@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Battery readings (24V)
+    match /battery_readings_24v/{readingId} {
+      allow read: if true;
+      allow create: if request.resource.data.voltage is number
+                   && request.resource.data.voltage >= 18 
+                   && request.resource.data.voltage <= 32
+                   && request.resource.data.pct is number
+                   && request.resource.data.pct >= 0
+                   && request.resource.data.pct <= 100;
+      allow delete: if true;
+    }
+    
+    // Home solar readings (48V)
+    match /home_solar_readings_48v/{readingId} {
+      allow read: if true;
+      allow create: if request.resource.data.voltage is number
+                   && request.resource.data.voltage >= 40 
+                   && request.resource.data.voltage <= 58
+                   && request.resource.data.pct is number
+                   && request.resource.data.pct >= 0
+                   && request.resource.data.pct <= 100;
+      allow delete: if true;
+    }
+    
+    // Fuel trips
+    match /fuel_trips/{tripId} {
+      allow read: if true;
+      allow create: if request.resource.data.distance is number
+                   && request.resource.data.distance > 0
+                   && request.resource.data.efficiency is number
+                   && request.resource.data.efficiency > 0;
+      allow update: if request.resource.data.distance is number
+                   && request.resource.data.distance > 0
+                   && request.resource.data.efficiency is number
+                   && request.resource.data.efficiency > 0;
+      allow delete: if true;
+    }
+    
+    // Fuel prices
+    match /fuel_prices/{priceId} {
+      allow read: if true;
+      allow create: if request.resource.data.priceMmk is number
+                   && request.resource.data.priceMmk > 0;
+      allow delete: if true;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "battery_readings_24v",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "home_solar_readings_48v",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "fuel_trips",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "tripTimestamp",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "fuel_prices",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "recordedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
