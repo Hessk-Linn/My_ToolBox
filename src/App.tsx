@@ -4,6 +4,7 @@ import TabLayout from "@/components/TabLayout";
 import BatteryStatus from "@/pages/BatteryStatus";
 import FuelCalculator from "@/pages/FuelCalculator";
 import HomeSolar from "@/pages/HomeSolar";
+import Converter from "@/pages/Converter";
 import NotFound from "@/pages/NotFound";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
@@ -25,9 +26,10 @@ function App() {
         <WouterRouter>
           <TabLayout>
             <Switch>
-              <Route path="/" component={BatteryStatus} />
               <Route path="/fuel" component={FuelCalculator} />
               <Route path="/home-solar" component={HomeSolar} />
+              <Route path="/" component={BatteryStatus} />
+              <Route path="/converter" component={Converter} />
               <Route component={NotFound} />
             </Switch>
           </TabLayout>

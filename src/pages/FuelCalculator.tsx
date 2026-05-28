@@ -4,17 +4,17 @@ import { fuelApi, type FuelTrip, type FuelPrice } from "@/lib/apiClient";
 
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "14px 16px", fontSize: "1rem",
-  border: "1px solid #ccc", borderRadius: "24px", fontFamily: "inherit",
-  background: "#f9fafb", outline: "none", boxSizing: "border-box",
+  border: "1px solid #1a2332", borderRadius: "12px", fontFamily: "inherit",
+  background: "#0a0e1a", outline: "none", boxSizing: "border-box", color: "#e0e0e0", fontWeight: 600,
 };
 const labelStyle: React.CSSProperties = {
-  display: "block", fontWeight: 600, marginBottom: 6, color: "#1e3a2f", fontSize: "0.95rem",
+  display: "block", fontWeight: 700, marginBottom: 8, color: "#6b7280", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.5px",
 };
 function focus(e: React.FocusEvent<HTMLInputElement>) {
-  e.target.style.borderColor="#ff9800"; e.target.style.boxShadow="0 0 0 3px rgba(255,152,0,0.2)"; e.target.style.background="white";
+  e.target.style.borderColor="#00ff88"; e.target.style.boxShadow="0 0 0 3px rgba(0,255,136,0.2)"; e.target.style.background="#0f1419";
 }
 function blur(e: React.FocusEvent<HTMLInputElement>) {
-  e.target.style.borderColor="#ccc"; e.target.style.boxShadow="none"; e.target.style.background="#f9fafb";
+  e.target.style.borderColor="#1a2332"; e.target.style.boxShadow="none"; e.target.style.background="#0a0e1a";
 }
 
 export default function FuelCalculator() {
@@ -102,34 +102,36 @@ export default function FuelCalculator() {
   }
 
   return (
-    <div>
-      <h2 style={{ fontSize:"1.8rem", margin:"0 0 8px 0", color:"#1a472a", display:"flex", alignItems:"center", gap:8 }}>
-        ⛽ Fuel Cost <span style={{ color:"#ff9800" }}>MMK</span>
-      </h2>
-      <div style={{ color:"#555", borderLeft:"3px solid #ff9800", paddingLeft:12, marginBottom:20, fontSize:"0.9rem" }}>
-        Auto-synced fuel tracking
+    <div style={{ margin: 0, minHeight: '100vh', color: '#e0e0e0' }}>
+      <div style={{ marginBottom: '20px', padding: '16px 20px', background: 'linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%)', border: '1px solid #1a2332', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
+        <h2 style={{ fontSize:"1.5rem", margin:"0 0 6px 0", fontWeight: 900, background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display:"flex", alignItems:"center", gap:10 }}>
+          ⛽ FUEL COST TRACKER
+        </h2>
+        <div style={{ color:"#6b7280", fontSize:"0.8rem", fontWeight: 600, letterSpacing: '0.3px' }}>
+          💾 Auto-synced fuel tracking • Real-time calculations
+        </div>
       </div>
 
       {/* ── Fuel Price Memory ── */}
-      <div style={{ background:"#fffbf0", border:"1px solid #fde68a", borderRadius:20, padding:"14px 16px", marginBottom:20 }}>
+      <div style={{ background:"linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%)", border:"1px solid #1a2332", borderRadius:16, padding:"18px 20px", marginBottom:20, boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:showPriceForm?12:0 }}>
           <div>
-            <div style={{ fontWeight:800, fontSize:"0.95rem", color:"#92400e" }}>
-              ⛽ Current Fuel Price
+            <div style={{ fontWeight:800, fontSize:"0.95rem", color:"#00ff88", letterSpacing: '0.5px' }}>
+              ⛽ CURRENT FUEL PRICE
             </div>
             {latestPrice ? (
-              <div style={{ fontSize:"1.5rem", fontWeight:900, color:"#b45309", marginTop:2 }}>
-                {latestPrice.toLocaleString()} <span style={{ fontSize:"0.85rem", fontWeight:600 }}>MMK/L</span>
+              <div style={{ fontSize:"1.5rem", fontWeight:900, color:"#00ff88", marginTop:2 }}>
+                {latestPrice.toLocaleString()} <span style={{ fontSize:"0.85rem", fontWeight:600, color: '#6b7280' }}>MMK/L</span>
               </div>
             ) : (
-              <div style={{ fontSize:"0.8rem", color:"#a16207", marginTop:2 }}>No price recorded yet</div>
+              <div style={{ fontSize:"0.8rem", color:"#6b7280", marginTop:2 }}>No price recorded yet</div>
             )}
           </div>
           <button
             onClick={()=>setShowPriceForm(v=>!v)}
-            style={{ background:"#ff9800", color:"white", border:"none", borderRadius:20, padding:"8px 14px", fontWeight:700, fontSize:"0.82rem", cursor:"pointer" }}
+            style={{ background: showPriceForm ? "#1a2332" : "linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)", color: showPriceForm ? "#6b7280" : "#0a0e1a", border:"none", borderRadius:12, padding:"10px 16px", fontWeight:800, fontSize:"0.8rem", cursor:"pointer", boxShadow: showPriceForm ? 'none' : '0 0 15px rgba(0,255,136,0.3)' }}
           >
-            {showPriceForm ? "Cancel" : "+ New Price"}
+            {showPriceForm ? "✕ Cancel" : "+ New Price"}
           </button>
         </div>
 
@@ -145,8 +147,8 @@ export default function FuelCalculator() {
               <input type="text" placeholder="e.g. Station A, Jan 2026" value={priceNote} onChange={e=>setPriceNote(e.target.value)}
                 style={inputStyle} onFocus={focus} onBlur={blur} />
             </div>
-            <button onClick={savePrice} disabled={addPriceM.isPending} style={{ background:"#ff9800", color:"white", border:"none", borderRadius:20, padding:"10px 20px", fontWeight:700, width:"100%", cursor:"pointer" }}>
-              {addPriceM.isPending?"Saving…":"Save Price"}
+            <button onClick={savePrice} disabled={addPriceM.isPending} style={{ background: addPriceM.isPending ? "#1a2332" : "linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)", color: addPriceM.isPending ? "#6b7280" : "#0a0e1a", border:"none", borderRadius:12, padding:"12px 20px", fontWeight:800, width:"100%", cursor: addPriceM.isPending ? "not-allowed" : "pointer", boxShadow: addPriceM.isPending ? 'none' : '0 0 15px rgba(0,255,136,0.3)' }}>
+              {addPriceM.isPending?"⏳ Saving…":"✓ Save Price"}
             </button>
           </div>
         )}
@@ -157,10 +159,10 @@ export default function FuelCalculator() {
             {prices.map((p,i) => (
               <div key={p.id} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"5px 0", borderTop:i>0?"1px solid #fde68a88":"none" }}>
                 <div>
-                  <span style={{ fontWeight:700, fontSize:"0.85rem", color:"#92400e" }}>{p.priceMmk.toLocaleString()} MMK/L</span>
-                  {p.note && <span style={{ fontSize:"0.72rem", color:"#a16207", marginLeft:8 }}>{p.note}</span>}
+                  <span style={{ fontWeight:700, fontSize:"0.85rem", color:"#00ff88" }}>{p.priceMmk.toLocaleString()} MMK/L</span>
+                  {p.note && <span style={{ fontSize:"0.72rem", color:"#6b7280", marginLeft:8 }}>{p.note}</span>}
                 </div>
-                <button onClick={()=>delPriceM.mutate(p.id)} style={{ background:"none", border:"none", color:"#ef4444", cursor:"pointer", fontSize:"0.8rem", opacity:0.6 }}>✕</button>
+                <button onClick={()=>delPriceM.mutate(p.id)} style={{ background:"rgba(239,68,68,0.1)", border:"1px solid rgba(239,68,68,0.3)", color:"#ef4444", cursor:"pointer", fontSize:"0.75rem", padding: '4px 8px', borderRadius: '8px', fontWeight: 700 }}>✕</button>
               </div>
             ))}
           </div>
@@ -168,7 +170,7 @@ export default function FuelCalculator() {
       </div>
 
       {/* ── Trip Calculator ── */}
-      <div style={{ background:"white", borderRadius:24, padding:"20px 18px", boxShadow:"0 4px 16px rgba(0,0,0,0.08)", marginBottom:16, border:"1px solid #e5e7eb" }}>
+      <div style={{ background:"linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%)", borderRadius:16, padding:"20px 18px", boxShadow:"0 4px 20px rgba(0,0,0,0.3)", marginBottom:16, border:"1px solid #1a2332" }}>
         {isEditing && (
           <div style={{ marginBottom:16, padding:"10px 14px", borderRadius:16, border:"2px solid #ff9800", background:"#fff3e0", color:"#b45309", fontSize:"0.85rem", fontWeight:600, display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
             <span>✏️ Editing: "{trips.find(t=>t.id===editId)?.name}"</span>
